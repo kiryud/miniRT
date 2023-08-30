@@ -30,10 +30,10 @@ int	cal_eq_pl(t_plane const *plane, t_ray const *cam, t_ray *ret)
 		/ (plane->vec.x * cam->vec.x \
 		+ plane->vec.y * cam->vec.y \
 		+ plane->vec.z * cam->vec.z);
-	ret->loc.x = cam->loc.x + t * cam->vec.x;
-	ret->loc.y = cam->loc.y + t * cam->vec.y;
-	ret->loc.z = cam->loc.z + t * cam->vec.z;
+	ret->loc = add_vec(cam->loc, multiply_vec(t, cam->vec));
 	ret->vec = plane->vec;
+	if (rt_inner_prod(ret->vec, cam->vec) > 0)
+		ret->vec = multiply_vec(-1, ret->vec);
 	if (rt_inner_prod(rt_get_vec(ret->loc, cam->loc), cam->vec) < 0)
 		return (0);
 	return (1);
