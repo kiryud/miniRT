@@ -22,7 +22,9 @@ int	rt_cal_cy_cos(double *res, t_point *p, t_point c, t_point h)
 		(cal_distance(p[1], c) * cal_distance(h, c));
 	res[3] = rt_inner_prod(rt_get_vec(p[1], h), rt_get_vec(c, h)) / \
 		(cal_distance(p[1], h) * cal_distance(c, h));
-	return (SUCCESS);
+	if ((0 > res[0] && 0 > res[2]) || (0 > res[1] && 0 > res[3]))
+		return (TRUE);
+	return (FALSE);
 }
 
 t_point	rt_cal_cy_hit_vec(t_point p, t_point c, t_point h)
@@ -33,6 +35,16 @@ t_point	rt_cal_cy_hit_vec(t_point p, t_point c, t_point h)
 		multiply_vec(rt_inner_prod(rt_get_vec(p, c), h), \
 		normalize_vec(h))));
 	return (res);
+}
+
+int	rt_swap_point(t_point *a, t_point *b)
+{
+	t_point	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+	return (SUCCESS);
 }
 
 int	cal_eq_circle(t_ray circle, t_ray *cam, t_ray *ret)

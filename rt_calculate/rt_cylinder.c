@@ -12,6 +12,20 @@
 
 #include "../miniRT.h"
 
+int	rt_is_cam_in_cylinder(t_point *p, t_ray *cam, t_point c, t_point h)
+{
+	double	res[2];
+
+	res[0] = rt_inner_prod(rt_get_vec(cam->loc, c), rt_get_vec(h, c)) / \
+		(cal_distance(cam->loc, c) * cal_distance(h, c));
+	res[1] = rt_inner_prod(rt_get_vec(cam->loc, h), rt_get_vec(c, h)) / \
+		(cal_distance(cam->loc, h) * cal_distance(c, h));
+	if (rt_inner_prod(rt_get_vec(p[0], cam->loc), rt_get_vec(p[1], cam->loc)) \
+		< 0 && res[0] > 0 && res[1] > 1)
+		return (TRUE);
+	return (FALSE);
+}
+
 int	cal_cy_hit_point(t_ray *ret, double *q, t_ray *cam, t_cylinder *cy)
 {
 	t_point	p[2];
@@ -21,13 +35,10 @@ int	cal_cy_hit_point(t_ray *ret, double *q, t_ray *cam, t_cylinder *cy)
 	p[0] = add_vec(cam->loc, multiply_vec(q[0], cam->vec));
 	p[1] = add_vec(cam->loc, multiply_vec(q[1], cam->vec));
 	if (cal_distance(p[0], cam->loc) > cal_distance(p[1], cam->loc))
-	{
-		ret->loc = p[0];
-		p[0] = p[1];
-		p[1] = ret->loc;
-	}
-	rt_cal_cy_cos(&cos[0], &p[0], cy->loc, cy->h_loc);
-	if ((0 > cos[0] && 0 > cos[2]) || (0 > cos[1] && 0 > cos[3]))
+		rt_swap_point(&p[0], &p[1]);
+	if (rt_inner_prod(rt_get_vec(p[1], cam->loc), cam->vec) < 0)
+		rt_swap_point(&p[0], &p[1]);
+	if (rt_cal_cy_cos(&cos[0], &p[0], cy->loc, cy->h_loc))
 		return (FALSE);
 	ray = (t_ray){cy->loc, multiply_vec(-1, cy->vec), cy->color};
 	if (0 > cos[0])
@@ -37,6 +48,8 @@ int	cal_cy_hit_point(t_ray *ret, double *q, t_ray *cam, t_cylinder *cy)
 		return (cal_eq_circle(ray, cam, ret));
 	ret->loc = p[0];
 	ret->vec = rt_cal_cy_hit_vec(ret->loc, cy->loc, cy->vec);
+	if (rt_is_cam_in_cylinder(p, cam, cy->loc, cy->h_loc))
+		ret->vec = multiply_vec(-1, ret->vec);
 	return (TRUE);
 }
 
