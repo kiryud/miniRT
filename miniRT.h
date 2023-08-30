@@ -40,10 +40,10 @@
 // quadratic equation coefficients
 typedef struct s_q_e_c
 {
-	double a;
-	double b;
-	double c;
-	double d;
+	double	a;
+	double	b;
+	double	c;
+	double	d;
 }			t_q_e_c;
 
 typedef struct s_point
@@ -248,10 +248,10 @@ int		check_object(t_minirt *list, t_ray *hit);
 int		cal_sphere(t_sphere *list, t_ray *cam, t_ray *hit_point, int flag);
 int		check_sphere(t_sphere *list, t_ray *hit, t_point light, int flag);
 // rt_plane.c
-int	cal_plane(t_plane *list, t_ray *cam, t_ray *hit_point, int flag);
-int	check_plane(t_plane *list, t_ray *hit, t_point light, int flag);
+int		cal_plane(t_plane *list, t_ray *cam, t_ray *hit_point, int flag);
+int		check_plane(t_plane *list, t_ray *hit, t_point light, int flag);
 // rt_cylinder.c
-int	cal_cylinder(t_cylinder *list, t_ray *cam, t_ray *hit_point, int flag);
-int	check_cylinder(t_cylinder *list, t_ray *hit, t_point light, int flag);
+int		cal_cylinder(t_cylinder *list, t_ray *cam, t_ray *hit_point, int flag);
+int		check_cylinder(t_cylinder *list, t_ray *hit, t_point light, int flag);
 
 #endif

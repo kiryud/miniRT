@@ -125,6 +125,7 @@ test : $(NAME)
 
 norm :
 	norminette $(SRCS) \
+	norminette miniRT.h \
 	$(addprefix $(PARSE_DIR), $(PARSE_SRCS)) \
 	$(addprefix $(MLX_DIR), $(MLX_SRCS)) \
 	$(addprefix $(CALCULATE_DIR), $(CALCULATE_SRCS)) \
