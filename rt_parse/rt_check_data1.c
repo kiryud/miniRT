@@ -52,6 +52,8 @@ int	rt_check_camera_range(t_camera camera)
 		rt_error_msg("camera vec y range error!", 1);
 	if (camera.vec.z < -1.0 || 1.0 < camera.vec.z)
 		rt_error_msg("camera vec z range error!", 1);
+	if (camera.vec.x == 0 && camera.vec.y == 0 && camera.vec.z == 0)
+		rt_error_msg("camera vec(0,0,0)! we can not use that!", 1);
 	return (SUCCESS);
 }
 

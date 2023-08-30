@@ -43,6 +43,8 @@ int	rt_check_plane_range(t_plane *plane)
 			rt_error_msg("plane color green range error!", 1);
 		if (plane->color.blue < 0 || 255 < plane->color.blue)
 			rt_error_msg("plane color blue range error!", 1);
+		if (plane->vec.x == 0 && plane->vec.y == 0 && plane->vec.z == 0)
+			rt_error_msg("plane vec(0,0,0)! we can not use that!", 1);
 		plane = plane->next;
 	}
 	return (SUCCESS);
@@ -64,6 +66,9 @@ int	rt_check_cylinder_range(t_cylinder *cylinder)
 			rt_error_msg("cylinder color green range error!", 1);
 		if (cylinder->color.blue < 0 || 255 < cylinder->color.blue)
 			rt_error_msg("cylinder color blue range error!", 1);
+		if (cylinder->vec.x == 0 && cylinder->vec.y == 0 && \
+			cylinder->vec.z == 0)
+			rt_error_msg("cylinder vec(0,0,0)! we can not use that!", 1);
 		cylinder = cylinder->next;
 	}
 	return (SUCCESS);
