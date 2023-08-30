@@ -222,6 +222,7 @@ t_point	normalize_vec(t_point a);
 t_point	add_vec(t_point const a, t_point const b);
 t_point	multiply_vec(double const mul, t_point const vec);
 double	cal_distance(t_point const p1, t_point const p2);
+int		rt_swap_point(t_point *a, t_point *b);
 // rt_cal_utils2.c
 int		rt_add_light_color(t_color tmp, int *color);
 t_ray	rt_get_point_to_light(t_ray obj, t_point light);
@@ -230,9 +231,10 @@ double	rt_inner_prod(t_point const a, t_point const b);
 t_point	rt_outer_prod(t_point const *a, t_point const *b);
 // rt_cal_utils3.c
 int		rt_cal_cy_cos(double *res, t_point *p, t_point c, t_point h);
+int		rt_cal_cy_inner(double *res, t_point *p, t_ray *cam, t_cylinder *cy);
 t_point	rt_cal_cy_hit_vec(t_point o, t_point c, t_point p);
-int		rt_swap_point(t_point *a, t_point *b);
 int		cal_eq_circle(t_ray circle, t_ray *cam, t_ray *ret);
+int		rt_is_cam_in_cylinder(t_point *p, t_ray *cam, t_point c, t_point h);
 
 // rt_calculate/
 // rt_ambient.c

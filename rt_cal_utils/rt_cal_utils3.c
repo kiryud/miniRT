@@ -27,6 +27,24 @@ int	rt_cal_cy_cos(double *res, t_point *p, t_point c, t_point h)
 	return (FALSE);
 }
 
+int	rt_cal_cy_inner(double *res, t_point *p, t_ray *cam, t_cylinder *cy)
+{
+	t_point	c;
+	t_point	h;
+
+	c = cy->loc;
+	h = cy->h_loc;
+	res[0] = rt_inner_prod(rt_get_vec(p[0], c), rt_get_vec(h, c)) / \
+		(cal_distance(p[0], c) * cal_distance(h, c));
+	res[1] = rt_inner_prod(rt_get_vec(p[0], h), rt_get_vec(c, h)) / \
+		(cal_distance(p[0], h) * cal_distance(c, h));
+	if ((0 < res[0] && 0 < res[1]) && \
+		rt_inner_prod(cam->vec, rt_get_vec(p[0], cam->loc)) * \
+		rt_inner_prod(cam->vec, rt_get_vec(p[1], cam->loc)) < 0)
+		return (TRUE);
+	return (FALSE);
+}
+
 t_point	rt_cal_cy_hit_vec(t_point p, t_point c, t_point h)
 {
 	t_point	res;
@@ -37,39 +55,34 @@ t_point	rt_cal_cy_hit_vec(t_point p, t_point c, t_point h)
 	return (res);
 }
 
-int	rt_swap_point(t_point *a, t_point *b)
-{
-	t_point	tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-	return (SUCCESS);
-}
-
 int	cal_eq_circle(t_ray circle, t_ray *cam, t_ray *ret)
 {
 	double	t;
 
-	if (rt_inner_prod(circle.vec, cam->vec) == 0)
-	{
-		if (rt_inner_prod(circle.vec, rt_get_vec(cam->loc, circle.loc)) != 0)
-			return (0);
-		ret->loc = cam->loc;
-		ret->vec = circle.vec;
-		return (1);
-	}
 	t = ((circle.loc.x - cam->loc.x) * circle.vec.x \
 		+ (circle.loc.y - cam->loc.y) * circle.vec.y \
 		+ (circle.loc.z - cam->loc.z) * circle.vec.z) \
 		/ (circle.vec.x * cam->vec.x \
 		+ circle.vec.y * cam->vec.y \
 		+ circle.vec.z * cam->vec.z);
-	ret->loc.x = cam->loc.x + t * cam->vec.x;
-	ret->loc.y = cam->loc.y + t * cam->vec.y;
-	ret->loc.z = cam->loc.z + t * cam->vec.z;
+	ret->loc = add_vec(cam->loc, multiply_vec(t, cam->vec));
 	ret->vec = circle.vec;
-	if (rt_inner_prod(rt_get_vec(ret->loc, cam->loc), cam->vec) < 0)
-		return (FALSE);
+	if (rt_inner_prod(ret->vec, cam->vec) > 0)
+		ret->vec = multiply_vec(-1, ret->vec);
 	return (TRUE);
+}
+
+int	rt_is_cam_in_cylinder(t_point *p, t_ray *cam, t_point c, t_point h)
+{
+	double	res[2];
+
+	res[0] = rt_inner_prod(rt_get_vec(cam->loc, c), rt_get_vec(h, c)) / \
+		(cal_distance(cam->loc, c) * cal_distance(h, c));
+	res[1] = rt_inner_prod(rt_get_vec(cam->loc, h), rt_get_vec(c, h)) / \
+		(cal_distance(cam->loc, h) * cal_distance(c, h));
+	if (rt_inner_prod(normalize_vec(rt_get_vec(p[0], cam->loc)), \
+		normalize_vec(rt_get_vec(p[1], cam->loc))) \
+		< 0 && res[0] > 0 && res[1] > 1)
+		return (TRUE);
+	return (FALSE);
 }

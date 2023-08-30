@@ -52,3 +52,13 @@ double	cal_distance(t_point const p1, t_point const p2)
 			+ pow(p1.y - p2.y, 2)
 			+ pow(p1.z - p2.z, 2)));
 }
+
+int	rt_swap_point(t_point *a, t_point *b)
+{
+	t_point	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+	return (SUCCESS);
+}
