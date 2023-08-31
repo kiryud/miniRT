@@ -229,7 +229,7 @@ int		rt_swap_point(t_point *a, t_point *b);
 // rt_cal_utils2.c
 int		rt_add_light_color(t_color tmp, int *color);
 t_ray	rt_get_point_to_light(t_ray obj, t_point light);
-t_point	rt_get_vec(t_point const a, t_point const b);
+t_point	rt_get_vec(t_point const end, t_point const start);
 double	rt_inner_prod(t_point const a, t_point const b);
 t_point	rt_outer_prod(t_point const *a, t_point const *b);
 // rt_cal_utils3.c

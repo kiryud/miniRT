@@ -40,13 +40,13 @@ t_ray	rt_get_point_to_light(t_ray obj, t_point light)
 	return (new);
 }
 
-t_point	rt_get_vec(t_point const a, t_point const b)
+t_point	rt_get_vec(t_point const end, t_point const start)
 {
 	t_point	res;
 
-	res.x = a.x - b.x;
-	res.y = a.y - b.y;
-	res.z = a.z - b.z;
+	res.x = end.x - start.x;
+	res.y = end.y - start.y;
+	res.z = end.z - start.z;
 	return (res);
 }
 
