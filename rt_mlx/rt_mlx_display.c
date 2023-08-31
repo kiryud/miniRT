@@ -12,13 +12,14 @@
 
 #include "../miniRT.h"
 
-int	rt_set_mlx(t_mlxlist *mlx)
+int	rt_set_mlx(t_mlxlist *mlx, t_minirt *list)
 {
 	ft_memset(mlx, 0, sizeof(t_mlxlist));
 	mlx->mlx = mlx_init();
 	mlx->img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
 	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bpp, \
 	&mlx->linel, &mlx->endian);
+	mlx->list = list;
 	printf("[%p][%d, %d, %d][%lu]\n", mlx->addr, mlx->bpp, mlx->linel, \
 	mlx->endian, sizeof(int));
 	return (SUCCESS);

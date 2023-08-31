@@ -18,6 +18,8 @@ void	rt_init(int ac, char **av, t_minirt *list)
 
 	rt_check_arg(ac, av);
 	ft_memset(list, 0, sizeof(t_minirt));
+	list->ac = ac;
+	list->av = av;
 	fd = rt_open_file(av[1]);
 	rt_set_data_from_file(fd, list);
 	close(fd);

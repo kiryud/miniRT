@@ -117,6 +117,8 @@ typedef struct s_cylinder
 
 typedef struct s_minirt
 {
+	int			ac;
+	char		**av;
 	int			count[6];
 	t_ambient	ambient;
 	t_camera	camera;
@@ -135,6 +137,7 @@ typedef struct s_mlxlist
 	int			bpp;
 	int			linel;
 	int			endian;
+	t_minirt	*list;
 }				t_mlxlist;
 
 // rt_parse/
@@ -207,10 +210,10 @@ t_point	rt_rotate_z(t_point tmp, double theta);
 
 // rt_mlx/
 // rt_mlx_func.c
-int		rt_keyhook(int k, t_mlxlist *list);
-int		rt_end(t_mlxlist *list);
+int		rt_keyhook(int k, t_mlxlist *mlx);
+int		rt_end(t_mlxlist *mlx);
 // rt_mlx_display.c
-int		rt_set_mlx(t_mlxlist *mlx);
+int		rt_set_mlx(t_mlxlist *mlx, t_minirt *list);
 int		rt_get_img(t_mlxlist *mlx, t_minirt *list);
 int		rt_get_pixel_color(t_minirt *list, int a, int b, int *color);
 int		rt_display_mlx(t_mlxlist *mlx, char *name);

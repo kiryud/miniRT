@@ -32,12 +32,7 @@ int	cal_cy_hit_point(t_ray *ret, t_point *p, t_ray *cam, t_cylinder *cy)
 	ret->loc = p[0];
 	ret->vec = rt_cal_cy_hit_vec(ret->loc, cy->loc, cy->vec);
 	if (rt_is_cam_in_cylinder(p, cam, cy->loc, cy->h_loc))
-		ret->vec = multiply_vec(-1, ret->vec);
-	printf("cam loc[%lf,%lf,%lf] vec[%lf,%lf,%lf] ret loc [%lf,%lf,%lf] vec [%lf,%lf,%lf]\n",
-		cam->loc.x, cam->loc.y, cam->loc.z, \
-		cam->vec.x, cam->vec.y, cam->vec.z, \
-		ret->loc.x, ret->loc.y, ret->loc.z, \
-		ret->vec.x, ret->vec.y, ret->vec.z);
+		ret->vec = multiply_vec(1, ret->vec);
 	return (TRUE);
 }
 
@@ -113,12 +108,15 @@ int	cal_cylinder(t_cylinder *list, t_ray *cam, t_ray *hit_point, int flag)
 int	check_cylinder(t_cylinder *list, t_ray *hit, t_point light, int flag)
 {
 	t_ray	temp;
+	double	res;
 
 	while (list)
 	{
 		if (cal_eq_cy(list, hit, &temp))
 		{
-			if (cal_distance(hit->loc, light) > \
+			res = rt_inner_prod(rt_get_vec(temp.loc, hit->loc), \
+				rt_get_vec(light, hit->loc));
+			if (res > 0 && cal_distance(hit->loc, light) > \
 				cal_distance(hit->loc, temp.loc))
 				flag = 1;
 		}
