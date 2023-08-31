@@ -18,19 +18,16 @@ t_ray	cal_hit_point(double q1, double q2, t_ray const *cam, t_point const *sp)
 	t_point	p1;
 	t_point	p2;
 
-	p1.x = cam->loc.x + q1 * cam->vec.x;
-	p1.y = cam->loc.y + q1 * cam->vec.y;
-	p1.z = cam->loc.z + q1 * cam->vec.z;
-	p2.x = cam->loc.x + q2 * cam->vec.x;
-	p2.y = cam->loc.y + q2 * cam->vec.y;
-	p2.z = cam->loc.z + q2 * cam->vec.z;
-	if (cal_distance(p1, cam->loc) < cal_distance(p2, cam->loc))
-		ret.loc = p1;
-	else
-		ret.loc = p2;
-	ret.vec.x = ret.loc.x - sp->x;
-	ret.vec.y = ret.loc.y - sp->y;
-	ret.vec.z = ret.loc.z - sp->z;
+	p1 = add_vec(cam->loc, multiply_vec(q1, cam->vec));
+	p2 = add_vec(cam->loc, multiply_vec(q2, cam->vec));
+	if (cal_distance(p1, cam->loc) > cal_distance(p2, cam->loc))
+		rt_swap_point(&p1, &p2);
+	if (rt_inner_prod(normalize_vec(rt_get_vec(p1, cam->loc)), cam->vec) < 0)
+		rt_swap_point(&p1, &p2);
+	ret.loc = p1;
+	ret.vec = rt_get_vec(ret.loc, *sp);
+	if (rt_inner_prod(ret.vec, cam->vec) > 0)
+		ret.vec = multiply_vec(-1, ret.vec);
 	return (ret);
 }
 
