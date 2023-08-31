@@ -31,8 +31,8 @@ int	cal_cy_hit_point(t_ray *ret, t_point *p, t_ray *cam, t_cylinder *cy)
 		return (cal_eq_circle(ray, cam, ret));
 	ret->loc = p[0];
 	ret->vec = rt_cal_cy_hit_vec(ret->loc, cy->loc, cy->vec);
-	if (rt_is_cam_in_cylinder(p, cam, cy->loc, cy->h_loc))
-		ret->vec = multiply_vec(1, ret->vec);
+	if (rt_inner_prod(ret->vec, cam->vec) > 0)
+		ret->vec = multiply_vec(-1, ret->vec);
 	return (TRUE);
 }
 

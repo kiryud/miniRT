@@ -71,18 +71,3 @@ int	cal_eq_circle(t_ray circle, t_ray *cam, t_ray *ret)
 		ret->vec = multiply_vec(-1, ret->vec);
 	return (TRUE);
 }
-
-int	rt_is_cam_in_cylinder(t_point *p, t_ray *cam, t_point c, t_point h)
-{
-	double	res[2];
-
-	res[0] = rt_inner_prod(rt_get_vec(cam->loc, c), rt_get_vec(h, c)) / \
-		(cal_distance(cam->loc, c) * cal_distance(h, c));
-	res[1] = rt_inner_prod(rt_get_vec(cam->loc, h), rt_get_vec(c, h)) / \
-		(cal_distance(cam->loc, h) * cal_distance(c, h));
-	if (rt_inner_prod(normalize_vec(rt_get_vec(p[0], cam->loc)), \
-		normalize_vec(rt_get_vec(p[1], cam->loc))) \
-		< 0 && res[0] > 0 && res[1] > 1)
-		return (TRUE);
-	return (FALSE);
-}
