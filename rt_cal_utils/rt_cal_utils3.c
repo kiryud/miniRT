@@ -12,8 +12,13 @@
 
 #include "../miniRT.h"
 
-int	rt_cal_cy_cos(double *res, t_point *p, t_point c, t_point h)
+int	rt_cal_cy_cos(double *res, t_point *p, t_ray *cam, t_cylinder *cy)
 {
+	t_point	c;
+	t_point	h;
+
+	c = cy->loc;
+	h = cy->h_loc;
 	res[0] = rt_inner_prod(rt_get_vec(p[0], c), rt_get_vec(h, c)) / \
 		(cal_distance(p[0], c) * cal_distance(h, c));
 	res[1] = rt_inner_prod(rt_get_vec(p[0], h), rt_get_vec(c, h)) / \
@@ -22,6 +27,10 @@ int	rt_cal_cy_cos(double *res, t_point *p, t_point c, t_point h)
 		(cal_distance(p[1], c) * cal_distance(h, c));
 	res[3] = rt_inner_prod(rt_get_vec(p[1], h), rt_get_vec(c, h)) / \
 		(cal_distance(p[1], h) * cal_distance(c, h));
+	res[4] = rt_inner_prod(rt_get_vec(cam->loc, c), rt_get_vec(h, c)) / \
+		(cal_distance(cam->loc, c) * cal_distance(h, c));
+	res[5] = rt_inner_prod(rt_get_vec(cam->loc, h), rt_get_vec(c, h)) / \
+		(cal_distance(cam->loc, h) * cal_distance(c, h));
 	if ((0 > res[0] && 0 > res[2]) || (0 > res[1] && 0 > res[3]))
 		return (TRUE);
 	return (FALSE);

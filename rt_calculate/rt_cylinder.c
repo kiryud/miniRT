@@ -14,14 +14,14 @@
 
 int	cal_cy_hit_point(t_ray *ret, t_point *p, t_ray *cam, t_cylinder *cy)
 {
-	double	cos[4];
+	double	cos[6];
 	t_ray	ray;
 
 	if (cal_distance(p[0], cam->loc) > cal_distance(p[1], cam->loc))
 		rt_swap_point(&p[0], &p[1]);
 	if (rt_inner_prod(normalize_vec(rt_get_vec(p[0], cam->loc)), cam->vec) < 0)
 		rt_swap_point(&p[0], &p[1]);
-	if (rt_cal_cy_cos(&cos[0], &p[0], cy->loc, cy->h_loc))
+	if (rt_cal_cy_cos(&cos[0], &p[0], cam, cy))
 		return (FALSE);
 	ray = (t_ray){cy->loc, multiply_vec(-1, cy->vec), cy->color};
 	if (0 > cos[0])

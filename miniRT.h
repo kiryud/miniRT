@@ -233,7 +233,7 @@ t_point	rt_get_vec(t_point const end, t_point const start);
 double	rt_inner_prod(t_point const a, t_point const b);
 t_point	rt_outer_prod(t_point const *a, t_point const *b);
 // rt_cal_utils3.c
-int		rt_cal_cy_cos(double *res, t_point *p, t_point c, t_point h);
+int		rt_cal_cy_cos(double *res, t_point *p, t_ray *cam, t_cylinder *cy);
 int		rt_cal_cy_inner(double *res, t_point *p, t_ray *cam, t_cylinder *cy);
 t_point	rt_cal_cy_hit_vec(t_point o, t_point c, t_point p);
 int		cal_eq_circle(t_ray circle, t_ray *cam, t_ray *ret);
