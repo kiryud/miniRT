@@ -35,7 +35,6 @@ int	rt_end(t_mlxlist *mlx)
 	printf("miniRT : good bye!\n");
 	mlx_destroy_window(mlx->mlx, mlx->win);
 	mlx_destroy_image(mlx->mlx, mlx->img);
-	system("leaks miniRT");
 	exit(0);
 	return (0);
 }

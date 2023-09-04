@@ -16,14 +16,19 @@ int	cal_cy_hit_point(t_ray *ret, t_point *p, t_ray *cam, t_cylinder *cy)
 {
 	double	cos[6];
 	t_ray	ray;
+	int		flag;
 
-	if (cal_distance(p[0], cam->loc) > cal_distance(p[1], cam->loc))
-		rt_swap_point(&p[0], &p[1]);
-	if (rt_inner_prod(normalize_vec(rt_get_vec(p[0], cam->loc)), cam->vec) < 0)
-		rt_swap_point(&p[0], &p[1]);
 	if (rt_cal_cy_cos(&cos[0], &p[0], cam, cy))
 		return (FALSE);
-	ray = (t_ray){cy->loc, multiply_vec(-1, cy->vec), cy->color};
+	if (rt_cy_check_cam_loc(cos, &flag, p, cam))
+		return (FALSE);
+	ray = (t_ray){cy->loc, multiply_vec(1, cy->vec), cy->color};
+	if (flag && cos[1] < 0 && cos[4] < 0)
+		return (cal_eq_circle(ray, cam, ret));
+	ray = (t_ray){cy->h_loc, multiply_vec(1, cy->vec), cy->color};
+	if (flag && cos[0] < 0 && cos[5] < 0)
+		return (cal_eq_circle(ray, cam, ret));
+	ray = (t_ray){cy->loc, multiply_vec(1, cy->vec), cy->color};
 	if (0 > cos[0])
 		return (cal_eq_circle(ray, cam, ret));
 	ray = (t_ray){cy->h_loc, multiply_vec(1, cy->vec), cy->color};
@@ -68,9 +73,10 @@ int	cal_eq_cy(t_cylinder *cylinder, t_ray *cam, t_ray *ret)
 	res[1] = (-coef.b - sqrt(coef.d)) / (2 * coef.a);
 	p[0] = add_vec(cam->loc, multiply_vec(res[0], cam->vec));
 	p[1] = add_vec(cam->loc, multiply_vec(res[1], cam->vec));
-	if (rt_inner_prod(cam->vec, rt_get_vec(p[0], cam->loc)) < 0 && \
-		rt_inner_prod(cam->vec, rt_get_vec(p[1], cam->loc)) < 0)
-		return (FALSE);
+	if (cal_distance(p[0], cam->loc) > cal_distance(p[1], cam->loc))
+		rt_swap_point(&p[0], &p[1]);
+	if (rt_inner_prod(normalize_vec(rt_get_vec(p[0], cam->loc)), cam->vec) < 0)
+		rt_swap_point(&p[0], &p[1]);
 	if (cal_cy_hit_point(ret, p, cam, cylinder) == FALSE)
 		return (FALSE);
 	if (rt_cal_cy_inner(res, p, cam, cylinder) == FALSE && \

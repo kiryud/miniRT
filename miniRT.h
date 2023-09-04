@@ -235,6 +235,7 @@ t_point	rt_outer_prod(t_point const *a, t_point const *b);
 // rt_cal_utils3.c
 int		rt_cal_cy_cos(double *res, t_point *p, t_ray *cam, t_cylinder *cy);
 int		rt_cal_cy_inner(double *res, t_point *p, t_ray *cam, t_cylinder *cy);
+int		rt_cy_check_cam_loc(double *cos, int *flag, t_point *p, t_ray *cam);
 t_point	rt_cal_cy_hit_vec(t_point o, t_point c, t_point p);
 int		cal_eq_circle(t_ray circle, t_ray *cam, t_ray *ret);
 

@@ -54,6 +54,18 @@ int	rt_cal_cy_inner(double *res, t_point *p, t_ray *cam, t_cylinder *cy)
 	return (FALSE);
 }
 
+int	rt_cy_check_cam_loc(double *cos, int *flag, t_point *p, t_ray *cam)
+{
+	*flag = 0;
+	if (rt_inner_prod(rt_get_vec(p[1], cam->loc), cam->vec) < 0)
+		*flag = 1;
+	if (*flag && cos[0] < 0 && cos[4] < 0)
+		return (TRUE);
+	if (*flag && cos[1] < 0 && cos[5] < 0)
+		return (TRUE);
+	return (FALSE);
+}
+
 t_point	rt_cal_cy_hit_vec(t_point p, t_point c, t_point h)
 {
 	t_point	res;
