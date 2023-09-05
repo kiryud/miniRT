@@ -80,6 +80,12 @@ int	cal_eq_circle(t_ray circle, t_ray *cam, t_ray *ret)
 {
 	double	t;
 
+	if (rt_inner_prod(circle.vec, cam->vec) == 0)
+	{
+		ret->loc = cam->loc;
+		ret->vec = circle.vec;
+		return (TRUE);
+	}
 	t = ((circle.loc.x - cam->loc.x) * circle.vec.x \
 		+ (circle.loc.y - cam->loc.y) * circle.vec.y \
 		+ (circle.loc.z - cam->loc.z) * circle.vec.z) \
