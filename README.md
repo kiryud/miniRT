@@ -12,7 +12,14 @@ Makefile : all, clean, fclean, re
 
 ### 작동 방법
 Makefile 사용법
-```Makefile
+```shell
+make all # 실행파일 생성
+make clean # 실행파일 제외 모든 생성된 파일 제거
+make fclean # 실행파일 포함해 모든 생성된 파일 제거
+make re # 모든 생성파일 제거 후 실행파일 재생성
+
+make test # test dir의 만들어둔 잘못된 문법의 rt파일들을 실행해 모든 종류의 예외처리를 확인할 수 있고 마지막에 (나름 열심히 구성한) 다양한 도형을 넣은 파일 렌더링
+make norm # 42 C 
 ```
 
 해석할 파일이 될 하나의 인자가 필요하다
@@ -38,11 +45,11 @@ Plane
 identifier  location(x,y,z)  vector  RGB
 pl          0,0,-24		0,0,1					10,10,255
 
-
+Cylinder
 identifier  
 cy	 0,4,3  0,1,0	 2 2  200,20,20
 
-
+Sphere
 identifier  
 sp  0,10,0 2.5 150,80,80
 ```
