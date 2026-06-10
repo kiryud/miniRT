@@ -1,4 +1,5 @@
 # miniRT
+![예시](./miniRT_test.png)
 
 ## project info
 ```md
@@ -53,5 +54,3 @@ Sphere
 identifier  
 sp  0,10,0 2.5 150,80,80
 ```
-`make test` 예시
-![예시](./miniRT_test_001.png)
